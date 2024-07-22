@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="/">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRS9CUaJH62vReE66MXeYCTYPvZ2KGwAqKdNg&s" alt="Insignia Catemu" style="height: 40px; margin-right: 10px;">
+                Gestión de Talleres Catemu
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="/docentes">Docentes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/salas">Salas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/talleres">Talleres</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/clases">Clases</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/estudiantes">Estudiantes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/estudiantes_taller">Estudiantes en Talleres</a></li>
+
+
+                    <li class="nav-item"><a class="nav-link" href="/bitacoras/taller_bitacoras">Bitácoras de Talleres</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/asistencias/monthly_report">Reporte Mensual</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mt-5">
+        <h2 class="mb-4">Agregar Nueva Sala</h2>
+        <form action="{{ url_for('salas.create_sala') }}" method="post" class="mb-5">
+            <div class="form-group">
+                <label for="nombre_sala">Nombre de la Sala</label>
+                <input type="text" id="nombre_sala" name="nombre_sala" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-success">Agregar Sala</button>
+        </form>
+
+        <h1 class="mb-4">Listado de Salas</h1>
+        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre Sala</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sala in salas %}
+                <tr>
+                    <td>{{ sala.id_sala }}</td>
+                    <td>{{ sala.nombre_sala }}</td>
+                    <td>
+                        <form action="{{ url_for('salas.edit_sala', id_sala=sala.id_sala) }}" method="get" class="d-inline">
+                            <button type="submit" class="btn btn-primary btn-sm">Editar</button>
+                        </form>
+                        <form action="{{ url_for('salas.delete_sala', id_sala=sala.id_sala) }}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="currentYear"></span> Gestión de Talleres Catemu. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
